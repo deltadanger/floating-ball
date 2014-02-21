@@ -6,17 +6,18 @@ public class Ball {
     
     public static int GRAVITY = 460;
     public static int MAX_SPEED = 200;
+    
+    public static int BALL_WIDTH = 10;
+    public static int BALL_HEIGHT = 10;
 
     private Vector2 position;
     private Vector2 velocity;
     private Vector2 acceleration;
 
-    private int width;
-    private int height;
+    private int width = BALL_WIDTH;
+    private int height = BALL_HEIGHT;
 
-    public Ball(float x, float y, int width, int height) {
-        this.width = width;
-        this.height = height;
+    public Ball(float x, float y) {
         position = new Vector2(x, y);
         velocity = new Vector2(0, 0);
         acceleration = new Vector2(0, GRAVITY);

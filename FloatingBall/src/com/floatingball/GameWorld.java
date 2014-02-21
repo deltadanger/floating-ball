@@ -1,10 +1,12 @@
 package com.floatingball;
 
 public class GameWorld {
+    public static int BALL_POSITION = 30;
+    
     private Ball ball;
 
-    public GameWorld(int midPointY) {
-        ball = new Ball(33, midPointY - 5, 17, 12);
+    public GameWorld(int gameHeight) {
+        ball = new Ball(BALL_POSITION, gameHeight/2 - Ball.BALL_HEIGHT/2);
     }
 
     public void update(float delta) {
@@ -13,7 +15,5 @@ public class GameWorld {
 
     public Ball getBall() {
         return ball;
-
     }
-
 }

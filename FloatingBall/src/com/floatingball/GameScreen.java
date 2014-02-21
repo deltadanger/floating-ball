@@ -10,12 +10,10 @@ public class GameScreen implements Screen {
     private GameWorld world;
     private GameRenderer renderer;
     
-    // This is the constructor, not the class declaration
     public GameScreen() {
-        int gameWidth = Utils.GAME_WIDTH;
-        int gameHeight = (int) (gameWidth * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
+        int gameHeight = (int) (Utils.GAME_WIDTH * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         
-        world = new GameWorld(gameHeight / 2);
+        world = new GameWorld(gameHeight);
         renderer = new GameRenderer(world, gameHeight);
         
         Gdx.input.setInputProcessor(new InputHandler(world.getBall()));
@@ -54,7 +52,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        // Leave blank
     }
 
 }
