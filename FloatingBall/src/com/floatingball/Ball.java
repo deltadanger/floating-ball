@@ -11,7 +11,6 @@ public class Ball {
     private Vector2 velocity;
     private Vector2 acceleration;
 
-    private float rotation;
     private int width;
     private int height;
 
@@ -48,9 +47,4 @@ public class Ball {
     public float getHeight() {
         return height;
     }
-
-    public float getRotation() {
-        return rotation;
-    }
-
 }
