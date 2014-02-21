@@ -1,0 +1,4 @@
+- Tap to switch gravity
+
+- Random level generation
+- Max distance
