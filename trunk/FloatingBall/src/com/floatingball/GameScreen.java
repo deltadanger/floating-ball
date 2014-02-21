@@ -12,10 +12,8 @@ public class GameScreen implements Screen {
     
     // This is the constructor, not the class declaration
     public GameScreen() {
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();      
         int gameWidth = Utils.GAME_WIDTH;
-        int gameHeight = (int) (screenHeight / (screenWidth / gameWidth));
+        int gameHeight = (int) (gameWidth * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         
         world = new GameWorld(gameHeight / 2);
         renderer = new GameRenderer(world);
