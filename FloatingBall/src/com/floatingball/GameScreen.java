@@ -1,19 +1,32 @@
 package com.floatingball;
+import helper.InputHandler;
+import helper.Utils;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL10;
 
 public class GameScreen implements Screen {
     
+    private GameWorld world;
+    private GameRenderer renderer;
+    
+    // This is the constructor, not the class declaration
     public GameScreen() {
-        System.out.println("GameScreen Attached");
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();      
+        int gameWidth = Utils.GAME_WIDTH;
+        int gameHeight = (int) (screenHeight / (screenWidth / gameWidth));
+        
+        world = new GameWorld(gameHeight / 2);
+        renderer = new GameRenderer(world);
+        
+        Gdx.input.setInputProcessor(new InputHandler(world.getBall()));
     }
 
     @Override
     public void render(float delta) {
-        // Draws the RGB color 10, 15, 230, at 100% opacity
-        Gdx.gl.glClearColor(10/255.0f, 15/255.0f, 230/255.0f, 1f);
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        world.update(delta);
+        renderer.render();
     }
 
     @Override
