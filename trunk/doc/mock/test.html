@@ -1,0 +1,168 @@
+<html>
+<head>
+    <script type="text/javascript" src="kinetic-v4.7.4.1.js"></script>
+    <script type="text/javascript">
+var WIDTH = 200;
+var HEIGHT = 100;
+var mainLayer;
+var stage;
+
+var clouds;
+var ball;
+var spikes;
+
+BALL_ACC = 0.005;
+BALL_MAX_SPEED = 2;
+BACKGROUND_SPEED = 0.1;
+
+window.onload = function() {
+    stage = new Kinetic.Stage({
+        container: document.getElementById("c"),
+        width: WIDTH,
+        height: HEIGHT
+    });
+    
+    mainLayer = new Kinetic.Layer({x:0, y:0, width: WIDTH, height: HEIGHT});
+    stage.add(mainLayer);
+    
+    mainLayer.add(new Kinetic.Rect({
+        x:0,
+        y:0,
+        width: WIDTH,
+        height: HEIGHT,
+        fill: '#BDFAFF'
+    }));
+    clouds = new Kinetic.Group();
+    mainLayer.add(clouds);
+    
+    for (var i = 0; i < 3; i++) {
+        addCloud(false);
+    }
+    
+    
+    ball = new Kinetic.Circle({
+        x:30,
+        y: HEIGHT/2-5,
+        radius: 5,
+        fill: '#FF0000'
+    });
+    ball.gravityDown = true;
+    ball.speed = 0;
+    mainLayer.add(ball);
+    
+    mainLayer.on("mousedown touchstart", function(e) {
+        ball.gravityDown = !ball.gravityDown;
+    });
+    
+    spikes = new Kinetic.Group();
+    mainLayer.add(spikes);
+    
+    
+    new Kinetic.Animation(loop, mainLayer).start();
+}
+
+function loop(frame) {
+    if (frame === undefined) {
+        return;
+    }
+    
+    if (Math.random() < 0.01) {
+        addCloud();
+    }
+    
+    if (Math.random() < 0.01) {
+        addSpike();
+    }
+    
+    moveClouds(frame);
+    moveBall(frame);
+    moveSpikes(frame);
+    
+    stage.draw();
+    setTimeout(loop, 10);
+}
+
+function moveClouds(frame) {
+    for (var i = 0; i < clouds.children.length; i++) {
+        var child = clouds.children[i];
+        if (child.getX() <= -40) {
+            clouds.children.splice(i, 1);
+            i--;
+        } else {
+            child.setX(child.getX()-frame.timeDiff*BACKGROUND_SPEED);
+        }
+    }
+}
+
+function moveBall(frame) {
+    if (ball.gravityDown) {
+        ball.speed += frame.timeDiff*BALL_ACC;
+    } else {
+        ball.speed -= frame.timeDiff*BALL_ACC;
+    }
+    var nextY = ball.getY()+Math.min(BALL_MAX_SPEED, Math.max(-BALL_MAX_SPEED, ball.speed));
+    if (nextY < 5) {
+        nextY = 5;
+        ball.speed = 0;
+    } else if (nextY > HEIGHT-5) {
+        nextY = HEIGHT-5;
+        ball.speed = 0;
+    }   
+    
+    ball.setY(nextY);
+}
+
+function moveSpikes(frame) {
+    for (var i = 0; i < spikes.children.length; i++) {
+        var child = spikes.children[i];
+        if (child.getX() <= 2) {
+            spikes.children.splice(i, 1);
+            i--;
+        } else {
+            child.setX(child.getX()-frame.timeDiff*BACKGROUND_SPEED);
+        }
+    }
+}
+
+function addCloud(onRight) {
+    onRight = onRight === undefined ? true : false;
+    cloud = new Kinetic.Group();
+    cloud.add(new Kinetic.Circle({
+        x:0,
+        y:0,
+        radius: 10,
+        fill: 'rgba(255,255,255,0.5)'
+    }));
+    
+    cloud.setY(10+Math.random()*(HEIGHT-20));
+    
+    if (!onRight) {
+        cloud.setX(10+Math.random()*(WIDTH-20));
+    } else {
+        cloud.setX(WIDTH);
+    }
+    
+    clouds.add(cloud);
+}
+
+function addSpike() {
+    spike = new Kinetic.Group();
+    spike.add(new Kinetic.Circle({
+        x:0,
+        y:0,
+        radius: 10,
+        fill: 'rgb(0,255,0)'
+    }));
+    
+    spike.setY(10+Math.random()*(HEIGHT-20));
+    spike.setX(WIDTH);
+    
+    spikes.add(spike);
+}
+
+    </script>
+</head>
+<body>
+    <div id='c'></div>
+</body>
+</html>
