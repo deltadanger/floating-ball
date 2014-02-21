@@ -30,7 +30,7 @@ public class Ball {
     }
 
     public void onClick() {
-        acceleration = new Vector2(0, -GRAVITY);
+        acceleration.y = 0 - acceleration.y;
     }
 
     public float getX() {
