@@ -1,6 +1,6 @@
 package helper;
 
 public class Utils {
-    public static int GAME_WIDTH = 272;
-    public static int GAME_HEIGHT = 408;
+    public static final int GAME_WIDTH = 200;
+    public static final int GAME_HEIGHT = 300;
 }
