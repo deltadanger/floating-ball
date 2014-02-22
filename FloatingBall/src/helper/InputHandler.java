@@ -1,18 +1,18 @@
 package helper;
 
 import com.badlogic.gdx.InputProcessor;
-import com.floatingball.Ball;
+import com.floatingball.GameWorld;
 
 public class InputHandler implements InputProcessor {
-    private Ball ball;
+    private GameWorld world;
 
-    public InputHandler(Ball ball) {
-        this.ball = ball;
+    public InputHandler(GameWorld world) {
+        this.world = world;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        ball.onClick();
+    	world.onClick();
         return true;
     }
 

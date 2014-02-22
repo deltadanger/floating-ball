@@ -13,10 +13,10 @@ public class GameScreen implements Screen {
     public GameScreen() {
         int gameHeight = (int) (Utils.GAME_WIDTH * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         
-        world = new GameWorld(gameHeight);
+        world = new GameWorld(gameHeight, 2);
         renderer = new GameRenderer(world, gameHeight);
         
-        Gdx.input.setInputProcessor(new InputHandler(world.getBall()));
+        Gdx.input.setInputProcessor(new InputHandler(world));
     }
 
     @Override
