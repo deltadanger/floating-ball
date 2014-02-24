@@ -8,8 +8,8 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Floating Ball";
 		cfg.useGL20 = false;
-		cfg.width = 400;
-		cfg.height = 600;
+		cfg.width = 200;
+		cfg.height = 300;
 		
 		new LwjglApplication(new MainGame(), cfg);
 	}

@@ -17,8 +17,9 @@ public class GameRenderer {
 
 	public static final int SCORE_POSITION_X = 10;
 	public static final int SCORE_POSITION_Y = 10;
-	
-	public static final int CLOUD_SIZE_FACTOR = 2;
+
+    public static final int SPIKE_SIZE = 15;
+    public static final int CLOUD_SIZE_FACTOR = 2;
 
 	public static final String STRING_TITLE = "Floating Ball";
 	public static final String STRING_SPEED = "Speed";
@@ -84,12 +85,16 @@ public class GameRenderer {
     }
     
     private void renderRunning() {
+        renderRunning(true);
+    }
+    
+    private void renderRunning(boolean displayScore) {
         // Draw spikes and clouds
     	for (Scrollable s : world.getScrollables()) {
     		if (s instanceof Cloud) {
     			batcher.draw(s.getTexture(), s.getX(), s.getY(), s.getWidth()*CLOUD_SIZE_FACTOR, s.getHeight()*CLOUD_SIZE_FACTOR);
     		} else {
-    			batcher.draw(s.getTexture(), s.getX(), s.getY());
+    			batcher.draw(s.getTexture(), s.getX(), s.getY(), SPIKE_SIZE, SPIKE_SIZE);
     		}
     	}
     	
@@ -103,10 +108,12 @@ public class GameRenderer {
 //        }
 //        batcher.draw(arrow, Utils.GAME_WIDTH-arrow.getRegionWidth()-10, 10);
         
-        // Draw Score
-        String score = ""+world.getScore();
-        TextBounds b = AssetLoader.mainFont.getBounds(score);
-        AssetLoader.mainFont.draw(batcher, score, Utils.GAME_WIDTH - b.width - SCORE_POSITION_X, SCORE_POSITION_Y);
+        if (displayScore) {
+            // Draw Score
+            String score = ""+world.getScore();
+            TextBounds b = AssetLoader.mainFont.getBounds(score);
+            AssetLoader.mainFont.draw(batcher, score, Utils.GAME_WIDTH - b.width - SCORE_POSITION_X, SCORE_POSITION_Y);
+        }
     }
     
     private void renderStart() {
@@ -117,6 +124,8 @@ public class GameRenderer {
     	}
     	int xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - PARAM_ICON_SIZE;
     	batcher.draw(sound, xPos, PARAM_POSITION_Y, PARAM_ICON_SIZE, PARAM_ICON_SIZE);
+    	world.updateSoundBtn(xPos, PARAM_POSITION_Y, (int)(PARAM_ICON_SIZE*1.414));
+    	
     	
     	TextureRegion music = AssetLoader.musicOn;
     	if (!world.isMusicOn()) {
@@ -124,29 +133,39 @@ public class GameRenderer {
     	}
     	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - PARAM_PADDING;
     	batcher.draw(music, xPos, PARAM_POSITION_Y, PARAM_ICON_SIZE, PARAM_ICON_SIZE);
+        world.updateMusicBtn(xPos, PARAM_POSITION_Y, (int)(PARAM_ICON_SIZE*1.414));
 
+        
     	String speed = ""+world.getSpeed();
     	Vector2 speedValueBounds = new Vector2(AssetLoader.secondaryFont.getBounds(speed).width, -AssetLoader.secondaryFont.getBounds(speed).height);
     	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 2*PARAM_PADDING - (int)speedValueBounds.x;
     	AssetLoader.secondaryFont.draw(batcher, speed, xPos, PARAM_POSITION_Y);
     	
+    	
     	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 2*PARAM_PADDING - (int)(speedValueBounds.x/2) - PARAM_ARROW_SIZE/2;
     	int yPos = PARAM_POSITION_Y - SPEED_VERTICAL_PADDING - PARAM_ARROW_SIZE;
     	batcher.draw(AssetLoader.arrowUp, xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
+        world.updateSpeedIncreaseBtn(xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
     	
+        
     	yPos = PARAM_POSITION_Y + (int)speedValueBounds.y + SPEED_VERTICAL_PADDING;
     	batcher.draw(AssetLoader.arrowDown, xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
+        world.updateSpeedIncreaseBtn(xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
 
+    	
     	Vector2 speedTextBounds = new Vector2(AssetLoader.secondaryFont.getBounds(STRING_SPEED).width, -AssetLoader.secondaryFont.getBounds(STRING_SPEED).height);
     	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 3*PARAM_PADDING - (int)speedValueBounds.x - (int)speedTextBounds.x;
     	AssetLoader.secondaryFont.draw(batcher, STRING_SPEED, xPos, PARAM_POSITION_Y);
+    	
     	
     	yPos = gameHeight*TITLE_POSITION_PERCENT/100;
     	TextBounds b = AssetLoader.mainFont.getBounds(STRING_TITLE);
     	AssetLoader.mainFont.draw(batcher, STRING_TITLE, Utils.GAME_WIDTH/2 - (int)(b.width/2), yPos);
     	
+    	
     	yPos += -b.height + TITLE_VERTICAL_PADDING;
     	batcher.draw(AssetLoader.play, Utils.GAME_WIDTH/2 - PLAY_SIZE/2, yPos, PLAY_SIZE, PLAY_SIZE);
+    	
     	
     	yPos += PLAY_SIZE + TITLE_VERTICAL_PADDING;
     	int height = AssetLoader.explanations.getRegionHeight() * EXPLANATIONS_WIDTH / AssetLoader.explanations.getRegionWidth();
@@ -154,7 +173,7 @@ public class GameRenderer {
     }
     
     private void renderGameOver() {
-    	renderRunning();
+    	renderRunning(false);
     	
     	int yPos = gameHeight*GAME_OVER_POSITION_PERCENT/100;
     	TextBounds b = AssetLoader.gameOverFont.getBounds(STRING_GAME);
@@ -175,7 +194,12 @@ public class GameRenderer {
     	AssetLoader.secondaryFont.draw(batcher, highScore, Utils.GAME_WIDTH/2 - b.width/2, yPos);
     	
     	yPos += (-b.height) + TITLE_VERTICAL_PADDING;
-    	batcher.draw(AssetLoader.facebook, Utils.GAME_WIDTH/2 - SHARE_ICON_PADDING/2 - SHARE_ICON_SIZE, yPos, SHARE_ICON_SIZE, SHARE_ICON_SIZE);
-    	batcher.draw(AssetLoader.twitter, Utils.GAME_WIDTH/2 + SHARE_ICON_PADDING/2, yPos, SHARE_ICON_SIZE, SHARE_ICON_SIZE);
+    	int xPos = Utils.GAME_WIDTH/2 - SHARE_ICON_PADDING/2 - SHARE_ICON_SIZE;
+    	batcher.draw(AssetLoader.facebook, xPos, yPos, SHARE_ICON_SIZE, SHARE_ICON_SIZE);
+    	world.updateFacebookBtn(xPos, yPos, SHARE_ICON_SIZE, SHARE_ICON_SIZE);
+    	
+    	xPos = Utils.GAME_WIDTH/2 + SHARE_ICON_PADDING/2;
+    	batcher.draw(AssetLoader.twitter, xPos, yPos, SHARE_ICON_SIZE, SHARE_ICON_SIZE);
+    	world.updateTwitterBtn(xPos, yPos, SHARE_ICON_SIZE, SHARE_ICON_SIZE);
     }
 }

@@ -1,6 +1,7 @@
 http://www.kilobolt.com/day-6-adding-graphics---welcome-to-the-necropolis.html
 
 - Tap to switch gravity
-- Random level generation
-- Max distance
+X Random level generation
+- Level generated depending on current ball position
+- High Score
 - Adjustable scroll speed

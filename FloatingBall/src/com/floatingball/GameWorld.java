@@ -1,6 +1,7 @@
 package com.floatingball;
 
 import helper.AssetLoader;
+import helper.ClickableZone;
 import helper.Utils;
 
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ public class GameWorld {
     public static final String PREFERENCE_KEY_SOUND = "sound";
     public static final String PREFERENCE_KEY_SPEED = "speed";
     public static final int DEFAULT_SPEED = 5;
+    public static final int MIN_SPEED = 1;
+    public static final int MAX_SPEED = 9;
     
     public static enum GameState {
     	START,
@@ -56,9 +59,20 @@ public class GameWorld {
 	private ArrayList<Scrollable> scrollables;
 	
 	private Preferences preferences;
-	private int speed;
+	private int speed = DEFAULT_SPEED;
 	private boolean isMusicOn = true;
 	private boolean isSoundOn = true;
+
+    private ClickableZone speedIncreaseBtn = new ClickableZone();
+    private ClickableZone speedDecreaseBtn = new ClickableZone();
+    private ClickableZone soundBtn = new ClickableZone();
+    private ClickableZone musicBtn = new ClickableZone();
+    private ClickableZone facebookBtn = new ClickableZone();
+    private ClickableZone twitterBtn = new ClickableZone();
+//    private ClickableZone  = new ClickableZone();
+//    private ClickableZone  = new ClickableZone();
+//    private ClickableZone  = new ClickableZone();
+//    private ClickableZone  = new ClickableZone();
 
     public GameWorld(int gameHeight, float scrollSpeedFactor) {
     	this.gameHeight = gameHeight;
@@ -142,23 +156,38 @@ public class GameWorld {
 		checkCollision();
     }
 
-	public void onClick() {
-		if (GameState.START.equals(currentState)) {
-	        reset();
-	        currentState = GameState.RUNNING;
-			return;
-		}
-    	if (GameState.GAME_OVER.equals(currentState)) {
+	public void onClick(int x, int y) {
+	    switch (currentState) {
+	    
+	    case START:
+            if (soundBtn.isInside(x, y)) {
+                setSoundOn(!isSoundOn);
+                
+            } else if (musicBtn.isInside(x, y)) {
+                setMusicOn(!isMusicOn);
+                
+            } else if (speedIncreaseBtn.isInside(x, y)) {
+                setSpeed(Math.min(MAX_SPEED, speed+1));
+                
+            } else if (speedDecreaseBtn.isInside(x, y)) {
+                setSpeed(Math.max(MIN_SPEED, speed-1));
+                
+            } else {
+                reset();
+                currentState = GameState.RUNNING;
+            }
+            break;
+            
+	    case GAME_OVER:
             reset();
             currentState = GameState.START;
-    		return;
-    	}
-    	
-		
-		if (GameState.RUNNING.equals(currentState)) {
-	    	gravityDirection = 0 - gravityDirection;
-	    	ball.onClick(gravityDirection);
-		}
+            break;
+            
+	    case RUNNING:
+            gravityDirection = 0 - gravityDirection;
+            ball.onClick(gravityDirection);
+            break;
+	    }
     }
     
     private void generateClouds() {
@@ -268,23 +297,51 @@ public class GameWorld {
 		return isMusicOn;
 	}
 
-//	public void setMusicOn(boolean isMusicOn) {
-//		this.isMusicOn = isMusicOn;
-//	}
+    private void setMusicOn(boolean isMusicOn) {
+        this.isMusicOn = isMusicOn;
+        preferences.putBoolean(PREFERENCE_KEY_MUSIC, isMusicOn);
+    }
 
-	public boolean isSoundOn() {
-		return isSoundOn;
-	}
+    public boolean isSoundOn() {
+        return isSoundOn;
+    }
 
-//	public void setSoundOn(boolean isSoundOn) {
-//		this.isSoundOn = isSoundOn;
-//	}
+    private void setSoundOn(boolean isSoundOn) {
+        this.isSoundOn = isSoundOn;
+        preferences.putBoolean(PREFERENCE_KEY_SOUND, isSoundOn);
+    }
 
-	public int getSpeed() {
-		return speed;
-	}
+    public int getSpeed() {
+        return speed;
+    }
 
-//	public void setSpeed(int speed) {
-//		this.speed = speed;
-//	}
+    private void setSpeed(int speed) {
+        this.speed = speed;
+        preferences.putInteger(PREFERENCE_KEY_SPEED, speed);
+    }
+    
+
+    public void updateSpeedIncreaseBtn(int x, int y, int width, int height) {
+        speedIncreaseBtn.update(x, y, width, height);
+    }
+    
+    public void updateSpeedDecreaseBtn(int x, int y, int width, int height) {
+        speedDecreaseBtn.update(x, y, width, height);
+    }
+    
+    public void updateSoundBtn(int x, int y, int radius) {
+        soundBtn.update(x, y, radius);
+    }
+    
+    public void updateMusicBtn(int x, int y, int radius) {
+        musicBtn.update(x, y, radius);
+    }
+    
+    public void updateFacebookBtn(int x, int y, int width, int height) {
+        facebookBtn.update(x, y, width, height);
+    }
+    
+    public void updateTwitterBtn(int x, int y, int width, int height) {
+        twitterBtn.update(x, y, width, height);
+    }
 }
