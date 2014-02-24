@@ -1,5 +1,6 @@
 package helper;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.floatingball.GameWorld;
 
@@ -12,7 +13,9 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-    	world.onClick();
+
+        float ratio = 1f*Utils.GAME_WIDTH / Gdx.graphics.getWidth();
+    	world.onClick((int)(screenX*ratio), screenY);
         return true;
     }
 
