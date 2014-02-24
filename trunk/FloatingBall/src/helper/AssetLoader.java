@@ -14,8 +14,6 @@ public class AssetLoader {
     public static TextureRegion background;
     public static TextureRegion ball;
     public static TextureRegion spike;
-//    public static TextureRegion arrowGravityUp;
-//    public static TextureRegion arrowGravityDown;
     public static ArrayList<TextureRegion> clouds = new ArrayList<TextureRegion>();
     
     public static Texture homeTexture;
@@ -45,71 +43,73 @@ public class AssetLoader {
         background = new TextureRegion(texture, 0, 0, 1, 1);
         background.flip(false, true);
 
-        ball = new TextureRegion(texture, 1, 0, 10, 10);
+        ball = new TextureRegion(texture, 1, 1, 254, 254);
         ball.flip(false, true);
 
-        spike = new TextureRegion(texture, 11, 0, 15, 15);
+        spike = new TextureRegion(texture, 271, 0, 351, 351);
         spike.flip(false, true);
 
-//        arrowGravityUp = new TextureRegion(texture, 100, 0, 13, 7);
-//        arrowGravityUp.flip(false, true);
-//
-//        arrowGravityDown = new TextureRegion(texture, 100, 7, 13, 7);
-//        arrowGravityDown.flip(false, true);
-
-        TextureRegion cloud = new TextureRegion(texture, 26, 0, 27, 13);
+        TextureRegion cloud = new TextureRegion(texture, 694, 30, 242, 103);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 53, 0, 24, 15);
+        cloud = new TextureRegion(texture, 713, 153, 226, 102);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 77, 0, 23, 13);
+        cloud = new TextureRegion(texture, 716, 265, 221, 121);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 0, 15, 29, 16);
+        cloud = new TextureRegion(texture, 6, 394, 332, 154);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 29, 13, 22, 13);
+        cloud = new TextureRegion(texture, 377, 418, 213, 108);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 51, 15, 18, 10);
+        cloud = new TextureRegion(texture, 718, 402, 223, 109);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 71, 15, 21, 10);
+        cloud = new TextureRegion(texture, 714, 556, 213, 112);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 0, 32, 20, 13);
+        cloud = new TextureRegion(texture, 344, 552, 291, 122);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 20, 31, 23, 11);
+        cloud = new TextureRegion(texture, 43, 574, 244, 117);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 43, 26, 16, 11);
+        cloud = new TextureRegion(texture, 48, 714, 217, 105);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 59, 26, 17, 13);
+        cloud = new TextureRegion(texture, 337, 706, 239, 108);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 77, 26, 22, 14);
+        cloud = new TextureRegion(texture, 680, 704, 221, 109);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 43, 39, 24, 11);
+        cloud = new TextureRegion(texture, 779, 827, 180, 95);
         cloud.flip(false, true);
         clouds.add(cloud);
 
-        cloud = new TextureRegion(texture, 71, 40, 26, 9);
+        cloud = new TextureRegion(texture, 545, 821, 182, 101);
+        cloud.flip(false, true);
+        clouds.add(cloud);
+
+        cloud = new TextureRegion(texture, 302, 845, 181, 81);
+        cloud.flip(false, true);
+        clouds.add(cloud);
+
+        cloud = new TextureRegion(texture, 71, 852, 172, 78);
         cloud.flip(false, true);
         clouds.add(cloud);
         
@@ -151,11 +151,11 @@ public class AssetLoader {
         // Fonts
 
         mainFont = new BitmapFont(Gdx.files.internal("data/bd_cartoon.fnt"));
-        mainFont.setScale(.6f, -.6f);
+        mainFont.setScale(.08f, -.08f);
         gameOverFont = new BitmapFont(Gdx.files.internal("data/bd_cartoon.fnt"));
-        gameOverFont.setScale(1f, -1f);
+        gameOverFont.setScale(.1f, -.1f);
         secondaryFont = new BitmapFont(Gdx.files.internal("data/dunkirk.fnt"));
-        secondaryFont.setScale(.5f, -.5f);
+        secondaryFont.setScale(.07f, -.07f);
         
         // Sounds
         
@@ -171,6 +171,11 @@ public class AssetLoader {
     
     public static void dispose() {
         texture.dispose();
+        homeTexture.dispose();
+        
+        mainFont.dispose();
+        gameOverFont.dispose();
+        secondaryFont.dispose();
         
         // Dispose sounds
     }

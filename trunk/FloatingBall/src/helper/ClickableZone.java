@@ -28,8 +28,9 @@ public class ClickableZone {
         
         if (radius >= 0) {
             Vector2 centre = position.cpy();
-            centre.add(radius, radius);
+            centre.add(radius*0.707f, radius*0.707f);
             return centre.dst(x, y) <= radius + BUTTON_CLICK_ZONE_PADDING;
+            
         } else if (width >= 0 && height >= 0) {
             return (x >= position.x - BUTTON_CLICK_ZONE_PADDING && x <= position.x + width + BUTTON_CLICK_ZONE_PADDING &&
                     y >= position.y - BUTTON_CLICK_ZONE_PADDING && y <= position.y + height + BUTTON_CLICK_ZONE_PADDING);

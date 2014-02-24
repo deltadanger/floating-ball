@@ -15,7 +15,7 @@ public class InputHandler implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
         float ratio = 1f*Utils.GAME_WIDTH / Gdx.graphics.getWidth();
-    	world.onClick((int)(screenX*ratio), screenY);
+    	world.onClick((int)(screenX*ratio), (int)(screenY*ratio));
         return true;
     }
 

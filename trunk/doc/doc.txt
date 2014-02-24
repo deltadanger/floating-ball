@@ -5,3 +5,12 @@ X Random level generation
 - Level generated depending on current ball position
 - High Score
 - Adjustable scroll speed
+
+Font colours: 
+B9AEF2 -> 6B5CB7
+
+
+TODO:
+- Facebook/Twitter
+- Sounds
+- AdMob
