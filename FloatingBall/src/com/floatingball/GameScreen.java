@@ -4,16 +4,18 @@ import helper.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.floatingball.interfaces.FacebookAPI;
+import com.floatingball.interfaces.TwitterAPI;
 
 public class GameScreen implements Screen {
     
     private GameWorld world;
     private GameRenderer renderer;
     
-    public GameScreen() {
+    public GameScreen(FacebookAPI facebook, TwitterAPI twitter) {
         int gameHeight = (int) (Utils.GAME_WIDTH * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         
-        world = new GameWorld(gameHeight, 2);
+        world = new GameWorld(gameHeight, facebook, twitter);
         renderer = new GameRenderer(world, gameHeight);
         
         Gdx.input.setInputProcessor(new InputHandler(world));

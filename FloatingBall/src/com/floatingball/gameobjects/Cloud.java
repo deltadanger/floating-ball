@@ -7,6 +7,9 @@ public class Cloud extends Scrollable {
 
 	public Cloud(float y, TextureRegion texture, float scrollSpeed) {
 		super(y, texture, scrollSpeed);
+
+		width = (int)(texture.getRegionWidth() * GameRenderer.CLOUD_SIZE_FACTOR);
+		height = (int)(texture.getRegionHeight() * GameRenderer.CLOUD_SIZE_FACTOR);
 	}
 
 	@Override

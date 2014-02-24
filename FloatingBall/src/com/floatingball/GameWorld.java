@@ -14,13 +14,15 @@ import com.floatingball.gameobjects.Ball;
 import com.floatingball.gameobjects.Cloud;
 import com.floatingball.gameobjects.Scrollable;
 import com.floatingball.gameobjects.Spike;
+import com.floatingball.interfaces.FacebookAPI;
+import com.floatingball.interfaces.TwitterAPI;
 
 public class GameWorld {
     public static final int BALL_POSITION = 10;
     public static final int MIN_DISTANCE_BETWEEN_CLOUDS = 10;
     public static final int RAND_DISTANCE_BETWEEN_CLOUDS = 30;
     
-    public static final int DISTANCE_BETWEEN_SPIKES = 40;
+    public static final int DISTANCE_BETWEEN_SPIKES = 50;
     public static final int NUMBER_OF_SPIKES_BETWEEN_FULL_LINE = 3;
     
     public static final float MAX_POSSIBLE_DELTA = .15f;
@@ -30,9 +32,13 @@ public class GameWorld {
     public static final String PREFERENCE_KEY_MUSIC = "music";
     public static final String PREFERENCE_KEY_SOUND = "sound";
     public static final String PREFERENCE_KEY_SPEED = "speed";
+    public static final int BASE_SCROLL_SPEED = -172;
+    public static final float SPEED_POWER_FACTOR = 1.03f;
     public static final int DEFAULT_SPEED = 5;
     public static final int MIN_SPEED = 1;
     public static final int MAX_SPEED = 9;
+    
+    public static final String STATUS_UPDATE = "I just scored {} at Floating Ball! Can someone do better?";
     
     public static enum GameState {
     	START,
@@ -40,7 +46,7 @@ public class GameWorld {
     	GAME_OVER
     }
     
-    private float scrollSpeed = -100f;
+    private float scrollSpeed;
     
     private Random r = new Random();
     
@@ -69,15 +75,16 @@ public class GameWorld {
     private ClickableZone musicBtn = new ClickableZone();
     private ClickableZone facebookBtn = new ClickableZone();
     private ClickableZone twitterBtn = new ClickableZone();
-//    private ClickableZone  = new ClickableZone();
-//    private ClickableZone  = new ClickableZone();
-//    private ClickableZone  = new ClickableZone();
-//    private ClickableZone  = new ClickableZone();
+    
+    private FacebookAPI facebook;
+    private TwitterAPI twitter;    
 
-    public GameWorld(int gameHeight, float scrollSpeedFactor) {
+    public GameWorld(int gameHeight, FacebookAPI facebook, TwitterAPI twitter) {
     	this.gameHeight = gameHeight;
-    	this.scrollSpeed *= scrollSpeedFactor;
-        ball = new Ball(BALL_POSITION, 0);
+    	this.facebook = facebook;
+    	this.twitter = twitter;
+    	
+        ball = new Ball(BALL_POSITION, 0, gameHeight);
         
         initialisePreferences();
         
@@ -118,6 +125,9 @@ public class GameWorld {
     	
     	lastCloud = null;
     	lastSpike = null;
+        
+    	scrollSpeed = (int)(BASE_SCROLL_SPEED * Math.pow(SPEED_POWER_FACTOR, speed));
+    	System.out.println(""+scrollSpeed);
     }
 
     public void update(float delta) {
@@ -179,8 +189,16 @@ public class GameWorld {
             break;
             
 	    case GAME_OVER:
-            reset();
-            currentState = GameState.START;
+            if (facebookBtn.isInside(x, y)) {
+                facebook.updateStatus(STATUS_UPDATE.replace("{}", ""+getHighScore()));
+                
+            } else if (twitterBtn.isInside(x, y)) {
+                twitter.updateStatus(STATUS_UPDATE.replace("{}", ""+getHighScore()));
+                
+            } else {
+	            reset();
+	            currentState = GameState.START;
+            }
             break;
             
 	    case RUNNING:
@@ -201,6 +219,9 @@ public class GameWorld {
 			scrollables.add(cloud);
 			lastCloud = cloud;
     	}
+
+    	System.out.println(""+(Utils.GAME_WIDTH - lastCloud.getX()-lastCloud.getWidth()));
+    	System.out.println(""+(lastCloud.getX()));
     }
     
     private void generateSpikes() {
@@ -300,6 +321,7 @@ public class GameWorld {
     private void setMusicOn(boolean isMusicOn) {
         this.isMusicOn = isMusicOn;
         preferences.putBoolean(PREFERENCE_KEY_MUSIC, isMusicOn);
+        preferences.flush();
     }
 
     public boolean isSoundOn() {
@@ -309,6 +331,7 @@ public class GameWorld {
     private void setSoundOn(boolean isSoundOn) {
         this.isSoundOn = isSoundOn;
         preferences.putBoolean(PREFERENCE_KEY_SOUND, isSoundOn);
+        preferences.flush();
     }
 
     public int getSpeed() {
@@ -318,6 +341,7 @@ public class GameWorld {
     private void setSpeed(int speed) {
         this.speed = speed;
         preferences.putInteger(PREFERENCE_KEY_SPEED, speed);
+        preferences.flush();
     }
     
 

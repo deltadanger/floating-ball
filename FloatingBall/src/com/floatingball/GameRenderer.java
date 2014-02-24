@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.floatingball.gameobjects.Cloud;
 import com.floatingball.gameobjects.Scrollable;
 
@@ -18,8 +17,9 @@ public class GameRenderer {
 	public static final int SCORE_POSITION_X = 10;
 	public static final int SCORE_POSITION_Y = 10;
 
+    public static final int BALL_SIZE = 10;
     public static final int SPIKE_SIZE = 15;
-    public static final int CLOUD_SIZE_FACTOR = 2;
+    public static final float CLOUD_SIZE_FACTOR = 0.5f;
 
 	public static final String STRING_TITLE = "Floating Ball";
 	public static final String STRING_SPEED = "Speed";
@@ -99,7 +99,7 @@ public class GameRenderer {
     	}
     	
     	// Draw ball
-        batcher.draw(AssetLoader.ball, world.getBall().getX(), world.getBall().getY());
+        batcher.draw(AssetLoader.ball, world.getBall().getX(), world.getBall().getY(), BALL_SIZE, BALL_SIZE);
     	
         // Draw gravity arrow
 //        TextureRegion arrow = AssetLoader.arrowGravityDown;
@@ -124,7 +124,7 @@ public class GameRenderer {
     	}
     	int xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - PARAM_ICON_SIZE;
     	batcher.draw(sound, xPos, PARAM_POSITION_Y, PARAM_ICON_SIZE, PARAM_ICON_SIZE);
-    	world.updateSoundBtn(xPos, PARAM_POSITION_Y, (int)(PARAM_ICON_SIZE*1.414));
+    	world.updateSoundBtn(xPos, PARAM_POSITION_Y, (int)(PARAM_ICON_SIZE*0.707));
     	
     	
     	TextureRegion music = AssetLoader.musicOn;
@@ -133,33 +133,32 @@ public class GameRenderer {
     	}
     	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - PARAM_PADDING;
     	batcher.draw(music, xPos, PARAM_POSITION_Y, PARAM_ICON_SIZE, PARAM_ICON_SIZE);
-        world.updateMusicBtn(xPos, PARAM_POSITION_Y, (int)(PARAM_ICON_SIZE*1.414));
+        world.updateMusicBtn(xPos, PARAM_POSITION_Y, (int)(PARAM_ICON_SIZE*0.707));
 
-        
-    	String speed = ""+world.getSpeed();
-    	Vector2 speedValueBounds = new Vector2(AssetLoader.secondaryFont.getBounds(speed).width, -AssetLoader.secondaryFont.getBounds(speed).height);
-    	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 2*PARAM_PADDING - (int)speedValueBounds.x;
-    	AssetLoader.secondaryFont.draw(batcher, speed, xPos, PARAM_POSITION_Y);
     	
-    	
-    	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 2*PARAM_PADDING - (int)(speedValueBounds.x/2) - PARAM_ARROW_SIZE/2;
+    	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 2*PARAM_PADDING - PARAM_ARROW_SIZE;
     	int yPos = PARAM_POSITION_Y - SPEED_VERTICAL_PADDING - PARAM_ARROW_SIZE;
     	batcher.draw(AssetLoader.arrowUp, xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
         world.updateSpeedIncreaseBtn(xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
     	
-        
-    	yPos = PARAM_POSITION_Y + (int)speedValueBounds.y + SPEED_VERTICAL_PADDING;
+    	String speed = ""+world.getSpeed();
+    	TextBounds b = AssetLoader.secondaryFont.getBounds(speed);
+    	xPos += PARAM_ARROW_SIZE/2 - (int)(b.width/2);
+    	AssetLoader.secondaryFont.draw(batcher, speed, xPos, PARAM_POSITION_Y);
+
+    	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 2*PARAM_PADDING - PARAM_ARROW_SIZE;
+    	yPos = PARAM_POSITION_Y + (int)-b.height + SPEED_VERTICAL_PADDING;
     	batcher.draw(AssetLoader.arrowDown, xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
-        world.updateSpeedIncreaseBtn(xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
+        world.updateSpeedDecreaseBtn(xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
 
     	
-    	Vector2 speedTextBounds = new Vector2(AssetLoader.secondaryFont.getBounds(STRING_SPEED).width, -AssetLoader.secondaryFont.getBounds(STRING_SPEED).height);
-    	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 3*PARAM_PADDING - (int)speedValueBounds.x - (int)speedTextBounds.x;
+    	b = AssetLoader.secondaryFont.getBounds(STRING_SPEED);
+    	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 3*PARAM_PADDING - PARAM_ARROW_SIZE - (int)b.width;
     	AssetLoader.secondaryFont.draw(batcher, STRING_SPEED, xPos, PARAM_POSITION_Y);
     	
     	
     	yPos = gameHeight*TITLE_POSITION_PERCENT/100;
-    	TextBounds b = AssetLoader.mainFont.getBounds(STRING_TITLE);
+    	b = AssetLoader.mainFont.getBounds(STRING_TITLE);
     	AssetLoader.mainFont.draw(batcher, STRING_TITLE, Utils.GAME_WIDTH/2 - (int)(b.width/2), yPos);
     	
     	

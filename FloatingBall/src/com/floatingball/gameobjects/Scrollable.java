@@ -13,7 +13,7 @@ public class Scrollable {
     protected TextureRegion texture;
 
     public Scrollable(float y, TextureRegion texture, float scrollSpeed) {
-        position = new Vector2(Utils.GAME_WIDTH + texture.getRegionWidth(), y);
+		position = new Vector2(Utils.GAME_WIDTH, y);
         velocity = new Vector2(scrollSpeed, 0);
         this.width = texture.getRegionWidth();
         this.height = texture.getRegionHeight();
