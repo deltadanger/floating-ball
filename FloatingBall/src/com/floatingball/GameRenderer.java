@@ -1,6 +1,7 @@
 package com.floatingball;
 
 import helper.AssetLoader;
+import helper.Translate;
 import helper.Utils;
 
 import com.badlogic.gdx.Gdx;
@@ -20,13 +21,6 @@ public class GameRenderer {
     public static final int BALL_SIZE = 10;
     public static final int SPIKE_SIZE = 15;
     public static final float CLOUD_SIZE_FACTOR = 0.5f;
-
-	public static final String STRING_TITLE = "Floating Ball";
-	public static final String STRING_SPEED = "Speed";
-	public static final String STRING_GAME= "Game";
-	public static final String STRING_OVER= "Over";
-	public static final String STRING_SCORE = "Score:";
-	public static final String STRING_HIGH_SCORE = "High Score:";
 
 	public static final int PARAM_POSITION_X = 15;
 	public static final int PARAM_POSITION_Y = 15;
@@ -152,14 +146,14 @@ public class GameRenderer {
         world.updateSpeedDecreaseBtn(xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
 
     	
-    	b = AssetLoader.secondaryFont.getBounds(STRING_SPEED);
+    	b = AssetLoader.secondaryFont.getBounds(Translate.t(Translate.SPEED));
     	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 3*PARAM_PADDING - PARAM_ARROW_SIZE - (int)b.width;
-    	AssetLoader.secondaryFont.draw(batcher, STRING_SPEED, xPos, PARAM_POSITION_Y);
+    	AssetLoader.secondaryFont.draw(batcher, Translate.t(Translate.SPEED), xPos, PARAM_POSITION_Y);
     	
     	
     	yPos = gameHeight*TITLE_POSITION_PERCENT/100;
-    	b = AssetLoader.mainFont.getBounds(STRING_TITLE);
-    	AssetLoader.mainFont.draw(batcher, STRING_TITLE, Utils.GAME_WIDTH/2 - (int)(b.width/2), yPos);
+    	b = AssetLoader.mainFont.getBounds(Translate.t(Translate.TITLE));
+    	AssetLoader.mainFont.draw(batcher, Translate.t(Translate.TITLE), Utils.GAME_WIDTH/2 - (int)(b.width/2), yPos);
     	
     	
     	yPos += -b.height + TITLE_VERTICAL_PADDING;
@@ -175,20 +169,20 @@ public class GameRenderer {
     	renderRunning(false);
     	
     	int yPos = gameHeight*GAME_OVER_POSITION_PERCENT/100;
-    	TextBounds b = AssetLoader.gameOverFont.getBounds(STRING_GAME);
-    	AssetLoader.gameOverFont.drawMultiLine(batcher, STRING_GAME, Utils.GAME_WIDTH/2 - b.width/2, yPos);
+    	TextBounds b = AssetLoader.gameOverFont.getBounds(Translate.t(Translate.GAME));
+    	AssetLoader.gameOverFont.drawMultiLine(batcher, Translate.t(Translate.GAME), Utils.GAME_WIDTH/2 - b.width/2, yPos);
 
     	yPos += (-b.height) + TITLE_VERTICAL_PADDING;
-    	b = AssetLoader.gameOverFont.getBounds(STRING_OVER);
-    	AssetLoader.gameOverFont.draw(batcher, STRING_OVER, Utils.GAME_WIDTH/2 - b.width/2, yPos);
+    	b = AssetLoader.gameOverFont.getBounds(Translate.t(Translate.OVER));
+    	AssetLoader.gameOverFont.draw(batcher, Translate.t(Translate.OVER), Utils.GAME_WIDTH/2 - b.width/2, yPos);
 
     	yPos += (-b.height) + 2*TITLE_VERTICAL_PADDING;
-    	String score = STRING_SCORE + " " + world.getScore();
+    	String score = Translate.t(Translate.SCORE) + " " + world.getScore();
     	b = AssetLoader.secondaryFont.getBounds(score);
     	AssetLoader.secondaryFont.draw(batcher, score, Utils.GAME_WIDTH/2 - b.width/2, yPos);
     	
     	yPos += (-b.height) + TITLE_VERTICAL_PADDING;
-    	String highScore = STRING_HIGH_SCORE + " " + world.getHighScore();
+    	String highScore = Translate.t(Translate.HIGH_SCORE) + " " + world.getHighScore();
     	b = AssetLoader.secondaryFont.getBounds(highScore);
     	AssetLoader.secondaryFont.draw(batcher, highScore, Utils.GAME_WIDTH/2 - b.width/2, yPos);
     	

@@ -3,18 +3,18 @@ package com.floatingball;
 import helper.AssetLoader;
 
 import com.badlogic.gdx.Game;
-import com.floatingball.interfaces.FacebookAPI;
-import com.floatingball.interfaces.TwitterAPI;
+import com.floatingball.comunication.IFacebookAPI;
+import com.floatingball.comunication.ITwitterAPI;
 
 public class MainGame extends Game {
-	
-	private FacebookAPI facebook;
-	private TwitterAPI twitter;
-
-    public MainGame(FacebookAPI facebook, TwitterAPI twitter) {
-		this.facebook = facebook;
-		this.twitter = twitter;
-	}
+    
+    private IFacebookAPI facebook;
+    private ITwitterAPI twitter;
+    
+    public MainGame(IFacebookAPI facebook, ITwitterAPI twitter) {
+        this.facebook = facebook;
+        this.twitter = twitter;
+    }
 
 	@Override
     public void create() {

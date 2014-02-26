@@ -4,15 +4,15 @@ import helper.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.floatingball.interfaces.FacebookAPI;
-import com.floatingball.interfaces.TwitterAPI;
+import com.floatingball.comunication.IFacebookAPI;
+import com.floatingball.comunication.ITwitterAPI;
 
 public class GameScreen implements Screen {
     
     private GameWorld world;
     private GameRenderer renderer;
     
-    public GameScreen(FacebookAPI facebook, TwitterAPI twitter) {
+    public GameScreen(IFacebookAPI facebook, ITwitterAPI twitter) {
         int gameHeight = (int) (Utils.GAME_WIDTH * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         
         world = new GameWorld(gameHeight, facebook, twitter);
@@ -29,27 +29,22 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        System.out.println("GameScreen - resizing");
     }
 
     @Override
     public void show() {
-        System.out.println("GameScreen - show called");
     }
 
     @Override
     public void hide() {
-        System.out.println("GameScreen - hide called");     
     }
 
     @Override
     public void pause() {
-        System.out.println("GameScreen - pause called");        
     }
 
     @Override
     public void resume() {
-        System.out.println("GameScreen - resume called");       
     }
 
     @Override

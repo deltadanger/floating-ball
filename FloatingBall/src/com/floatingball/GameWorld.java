@@ -2,6 +2,7 @@ package com.floatingball;
 
 import helper.AssetLoader;
 import helper.ClickableZone;
+import helper.Translate;
 import helper.Utils;
 
 import java.util.ArrayList;
@@ -10,12 +11,13 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector2;
+import com.floatingball.comunication.ConfirmParameter;
+import com.floatingball.comunication.IFacebookAPI;
+import com.floatingball.comunication.ITwitterAPI;
 import com.floatingball.gameobjects.Ball;
 import com.floatingball.gameobjects.Cloud;
 import com.floatingball.gameobjects.Scrollable;
 import com.floatingball.gameobjects.Spike;
-import com.floatingball.interfaces.FacebookAPI;
-import com.floatingball.interfaces.TwitterAPI;
 
 public class GameWorld {
     public static final int BALL_POSITION = 10;
@@ -37,8 +39,6 @@ public class GameWorld {
     public static final int DEFAULT_SPEED = 5;
     public static final int MIN_SPEED = 1;
     public static final int MAX_SPEED = 9;
-    
-    public static final String STATUS_UPDATE = "I just scored {} at Floating Ball! Can someone do better?";
     
     public static enum GameState {
     	START,
@@ -76,10 +76,10 @@ public class GameWorld {
     private ClickableZone facebookBtn = new ClickableZone();
     private ClickableZone twitterBtn = new ClickableZone();
     
-    private FacebookAPI facebook;
-    private TwitterAPI twitter;    
+    private IFacebookAPI facebook;
+    private ITwitterAPI twitter;
 
-    public GameWorld(int gameHeight, FacebookAPI facebook, TwitterAPI twitter) {
+    public GameWorld(int gameHeight, IFacebookAPI facebook, ITwitterAPI twitter) {
     	this.gameHeight = gameHeight;
     	this.facebook = facebook;
     	this.twitter = twitter;
@@ -93,21 +93,30 @@ public class GameWorld {
     }
     
     private void initialisePreferences() {
+        boolean flush = false;
         preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
         if (!preferences.contains(PREFERENCE_KEY_HIGH_SCORE)) {
         	preferences.putInteger(PREFERENCE_KEY_HIGH_SCORE, 0);
+            flush = true;
         }
 
         if (!preferences.contains(PREFERENCE_KEY_MUSIC)) {
         	preferences.putBoolean(PREFERENCE_KEY_MUSIC, true);
+            flush = true;
         }
 
         if (!preferences.contains(PREFERENCE_KEY_SOUND)) {
         	preferences.putBoolean(PREFERENCE_KEY_SOUND, true);
+            flush = true;
         }
 
         if (!preferences.contains(PREFERENCE_KEY_SPEED)) {
         	preferences.putInteger(PREFERENCE_KEY_SPEED, DEFAULT_SPEED);
+        	flush = true;
+        }
+        
+        if (flush) {
+            preferences.flush();
         }
 
         speed = preferences.getInteger(PREFERENCE_KEY_SPEED);
@@ -127,7 +136,6 @@ public class GameWorld {
     	lastSpike = null;
         
     	scrollSpeed = (int)(BASE_SCROLL_SPEED * Math.pow(SPEED_POWER_FACTOR, speed));
-    	System.out.println(""+scrollSpeed);
     }
 
     public void update(float delta) {
@@ -189,11 +197,30 @@ public class GameWorld {
             break;
             
 	    case GAME_OVER:
+	        String status = Translate.t(Translate.STATUS_UPDATE).replace(Translate.SCORE_PLACEHOLDER, ""+getHighScore());
+	        String message = Translate.t(Translate.STATUS_UPDATE_CONFIRM).replace(Translate.STATUS_PLACEHOLDER, status);
+	        
             if (facebookBtn.isInside(x, y)) {
-                facebook.updateStatus(STATUS_UPDATE.replace("{}", ""+getHighScore()));
+                facebook.updateStatus(status,
+                        Translate.t(Translate.APP_URL),
+                        Translate.t(Translate.STATUS_UPDATE_SUCCESS),
+                        Translate.t(Translate.STATUS_UPDATE_FAILURE),
+                        new ConfirmParameter(
+                                Translate.t(Translate.STATUS_UPDATE_CONFIRM_TITLE),
+                                message.replace(Translate.SOCIAL_NETWORK_PLACEHOLDER, "Facebook"),
+                                Translate.t(Translate.YES),
+                                Translate.t(Translate.NO)));
                 
             } else if (twitterBtn.isInside(x, y)) {
-                twitter.updateStatus(STATUS_UPDATE.replace("{}", ""+getHighScore()));
+                twitter.updateStatus(status,
+                        Translate.t(Translate.APP_URL),
+                        Translate.t(Translate.STATUS_UPDATE_SUCCESS),
+                        Translate.t(Translate.STATUS_UPDATE_FAILURE),
+                        new ConfirmParameter(
+                                Translate.t(Translate.STATUS_UPDATE_CONFIRM_TITLE),
+                                message.replace(Translate.SOCIAL_NETWORK_PLACEHOLDER, "Twitter"),
+                                Translate.t(Translate.YES),
+                                Translate.t(Translate.NO)));
                 
             } else {
 	            reset();
@@ -219,9 +246,6 @@ public class GameWorld {
 			scrollables.add(cloud);
 			lastCloud = cloud;
     	}
-
-    	System.out.println(""+(Utils.GAME_WIDTH - lastCloud.getX()-lastCloud.getWidth()));
-    	System.out.println(""+(lastCloud.getX()));
     }
     
     private void generateSpikes() {
@@ -252,7 +276,6 @@ public class GameWorld {
     	while (y < gameHeight) {
     		// Do not add spike at ball's Y, plus the ones above and below
     		spike = new Spike(y, AssetLoader.spike, scrollSpeed);
-//    		if (y-2*spike.getHeight() > ball.getY() || ball.getY() > y+spike.getHeight()) { // space of 3 spikes
         	if (y-spike.getHeight() > ball.getY() || ball.getY() > y+spike.getHeight()) { // space of 2 spikes
 	    		scrollables.add(spike);
     		}
