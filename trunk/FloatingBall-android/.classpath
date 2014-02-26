@@ -8,5 +8,6 @@
 	<classpathentry exported="true" kind="lib" path="/FloatingBall/libs/gdx.jar" sourcepath="/FloatingBall/libs/gdx-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/gdx-backend-android.jar" sourcepath="libs/gdx-backend-android-sources.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="lib" path="/FloatingBall/libs/twitter4j-core-3.0.5.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
