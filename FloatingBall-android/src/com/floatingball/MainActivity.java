@@ -45,7 +45,7 @@ public class MainActivity extends AndroidApplication {
         RelativeLayout.LayoutParams adParams = 
             new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
-        adParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        adParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
         layout.addView(adView, adParams);

@@ -69,7 +69,7 @@ public class Translate {
             this.put(OVER, "Over");
             this.put(SCORE, "Score:");
             this.put(HIGH_SCORE, "Meilleur Score:");
-            this.put(STATUS_UPDATE, "Je viens de faire " + SCORE_PLACEHOLDER + " a Floating Ball ! Quelqu'un peut faire mieux que ça ?");
+            this.put(STATUS_UPDATE, "Je viens de faire " + SCORE_PLACEHOLDER + " à Floating Ball ! Quelqu'un peut faire mieux que ça ?");
             this.put(STATUS_UPDATE_SUCCESS, "Statut mis à jour!");
             this.put(STATUS_UPDATE_FAILURE, "Problème lors de la mise à jour du statut, veuillez réessayer plus tard.");
             this.put(STATUS_UPDATE_CONFIRM_TITLE, "Publication du score");
