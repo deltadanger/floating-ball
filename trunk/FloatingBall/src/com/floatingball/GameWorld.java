@@ -235,8 +235,10 @@ public class GameWorld {
     }
     
     private void generateClouds() {
-    	Cloud cloud = new Cloud(r.nextInt(gameHeight), AssetLoader.clouds.get(r.nextInt(AssetLoader.clouds.size())), scrollSpeed);
-    	
+        Cloud cloud = new Cloud(r.nextInt(gameHeight), AssetLoader.clouds.get(r.nextInt(AssetLoader.clouds.size())), scrollSpeed);
+        // cloud #4 6
+//        Cloud cloud = new Cloud(r.nextInt(gameHeight), AssetLoader.clouds.get(3), scrollSpeed);
+        
     	if (lastCloud == null) {
 			scrollables.add(cloud);
 			lastCloud = cloud;
