@@ -3,10 +3,17 @@ package com.floatingball;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.facebook.Session;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends AndroidApplication {
     @Override
@@ -16,7 +23,37 @@ public class MainActivity extends AndroidApplication {
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGL20 = false;
         
-        initialize(new MainGame(new FacebookAPI(this), new TwitterAPI(this)), cfg);
+//        initialize(new MainGame(new FacebookAPI(this), new TwitterAPI(this)), cfg);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        RelativeLayout layout = new RelativeLayout(this);
+        RelativeLayout.LayoutParams gameViewParams =
+                new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        gameViewParams.bottomMargin = 150;
+        
+        View gameView = initializeForView(new MainGame(new FacebookAPI(this), new TwitterAPI(this)), cfg);
+        layout.addView(gameView, gameViewParams);
+
+        AdView adView = new AdView(this);
+        adView.setAdUnitId("ca-app-pub-3293663299631285/3310259054");
+        adView.setAdSize(AdSize.BANNER);
+        
+        RelativeLayout.LayoutParams adParams = 
+            new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+        adParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+        layout.addView(adView, adParams);
+        
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+        
+        setContentView(layout);
     }
     
     @Override
