@@ -12,8 +12,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector2;
 import com.floatingball.comunication.ConfirmParameter;
-import com.floatingball.comunication.IFacebookAPI;
-import com.floatingball.comunication.ITwitterAPI;
+import com.floatingball.comunication.ISocialNetworkAPI;
 import com.floatingball.gameobjects.Ball;
 import com.floatingball.gameobjects.Cloud;
 import com.floatingball.gameobjects.Scrollable;
@@ -76,10 +75,10 @@ public class GameWorld {
     private ClickableZone facebookBtn = new ClickableZone();
     private ClickableZone twitterBtn = new ClickableZone();
     
-    private IFacebookAPI facebook;
-    private ITwitterAPI twitter;
+    private ISocialNetworkAPI facebook;
+    private ISocialNetworkAPI twitter;
 
-    public GameWorld(int gameHeight, IFacebookAPI facebook, ITwitterAPI twitter) {
+    public GameWorld(int gameHeight, ISocialNetworkAPI facebook, ISocialNetworkAPI twitter) {
     	this.gameHeight = gameHeight;
     	this.facebook = facebook;
     	this.twitter = twitter;

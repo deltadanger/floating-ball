@@ -4,15 +4,14 @@ import helper.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.floatingball.comunication.IFacebookAPI;
-import com.floatingball.comunication.ITwitterAPI;
+import com.floatingball.comunication.ISocialNetworkAPI;
 
 public class GameScreen implements Screen {
     
     private GameWorld world;
     private GameRenderer renderer;
     
-    public GameScreen(IFacebookAPI facebook, ITwitterAPI twitter) {
+    public GameScreen(ISocialNetworkAPI facebook, ISocialNetworkAPI twitter) {
         int gameHeight = (int) (Utils.GAME_WIDTH * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         
         world = new GameWorld(gameHeight, facebook, twitter);

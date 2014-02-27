@@ -56,7 +56,7 @@ public class Translate {
             this.put(STATUS_UPDATE_SUCCESS, "Status updated!");
             this.put(STATUS_UPDATE_FAILURE, "Error while updating status, please try again later.");
             this.put(STATUS_UPDATE_CONFIRM_TITLE, "Publishing new score");
-            this.put(STATUS_UPDATE_CONFIRM, "The following message will be posted on " + SOCIAL_NETWORK_PLACEHOLDER + ":\n" + STATUS_PLACEHOLDER + "\nDo you want to continue?");
+            this.put(STATUS_UPDATE_CONFIRM, "The following message will be posted on " + SOCIAL_NETWORK_PLACEHOLDER + ":\n\"" + STATUS_PLACEHOLDER + "\"\nDo you want to continue?");
             this.put(YES, "Yes");
             this.put(NO, "No");
         }});
@@ -73,7 +73,7 @@ public class Translate {
             this.put(STATUS_UPDATE_SUCCESS, "Statut mis à jour!");
             this.put(STATUS_UPDATE_FAILURE, "Problème lors de la mise à jour du statut, veuillez réessayer plus tard.");
             this.put(STATUS_UPDATE_CONFIRM_TITLE, "Publication du score");
-            this.put(STATUS_UPDATE_CONFIRM, "Le message suivant va être posté sur " + SOCIAL_NETWORK_PLACEHOLDER + " :\n" + STATUS_PLACEHOLDER + "\nVoulez-vous continuer ?");
+            this.put(STATUS_UPDATE_CONFIRM, "Le message suivant va être posté sur " + SOCIAL_NETWORK_PLACEHOLDER + " :\n\"" + STATUS_PLACEHOLDER + "\"\nVoulez-vous continuer ?");
             this.put(YES, "Oui");
             this.put(NO, "Non");
         }});

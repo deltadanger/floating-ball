@@ -11,9 +11,9 @@ import android.content.DialogInterface;
 import android.widget.Toast;
 
 import com.floatingball.comunication.ConfirmParameter;
-import com.floatingball.comunication.ITwitterAPI;
+import com.floatingball.comunication.ISocialNetworkAPI;
 
-public class TwitterAPI implements ITwitterAPI {
+public class TwitterAPI implements ISocialNetworkAPI {
     
     private Context ctx;
     
@@ -25,7 +25,7 @@ public class TwitterAPI implements ITwitterAPI {
     public void updateStatus(final String status, final String url, final String success, final String failure, ConfirmParameter param) {
         
         new AlertDialog.Builder(ctx)
-        .setIcon(android.R.drawable.ic_dialog_alert)
+        .setIcon(android.R.drawable.ic_dialog_info)
         .setTitle(param.getDialogTitle())
         .setMessage(param.getDialogContent())
         .setPositiveButton(param.getOkBtn(), new DialogInterface.OnClickListener() {
