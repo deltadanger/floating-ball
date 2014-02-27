@@ -11,6 +11,12 @@ B9AEF2 -> 6B5CB7
 
 
 TODO:
-- Facebook/Twitter
+- Update Home screen
+- Fix square clouds bug
+/ Facebook on Android
+- Twitter on Android
+- Facebook on iOS
+- Twitter on iOS
 - Sounds
-- AdMob
+/ AdMob on Android
+- AdMob on iOS

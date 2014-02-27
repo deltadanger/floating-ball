@@ -422,10 +422,6 @@ public class Session implements Serializable {
     public final void openForPublish(OpenRequest openRequest) {
         open(openRequest, SessionAuthorizationType.PUBLISH);
     }
-    
-    public final void openForReadAndPublish(OpenRequest openRequest) {
-        open(openRequest, null);
-    }
 
     /**
      * Opens a session based on an existing Facebook access token. This method should be used

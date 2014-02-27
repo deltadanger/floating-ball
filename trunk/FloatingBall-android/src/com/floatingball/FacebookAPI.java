@@ -69,12 +69,9 @@ public class FacebookAPI implements ISocialNetworkAPI {
                         
                         if (!session.isOpened()) {
                             Session.OpenRequest openRequest = new Session.OpenRequest(ctx);
-                            openRequest.setPermissions(new String[]{openPermission, publishPermission});
+                            openRequest.setPermissions(new String[]{openPermission});
                             session.addCallback(callback);
-                            session.openForReadAndPublish(openRequest);
-//                            openRequest.setPermissions(new String[]{openPermission});
-//                            session.addCallback(callback);
-//                            session.openForRead(openRequest);
+                            session.openForRead(openRequest);
                         } else {
                             callback.call(session, session.getState(), null);
                         }
