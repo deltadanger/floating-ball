@@ -3,15 +3,14 @@ package com.floatingball;
 import helper.AssetLoader;
 
 import com.badlogic.gdx.Game;
-import com.floatingball.comunication.IFacebookAPI;
-import com.floatingball.comunication.ITwitterAPI;
+import com.floatingball.comunication.ISocialNetworkAPI;
 
 public class MainGame extends Game {
     
-    private IFacebookAPI facebook;
-    private ITwitterAPI twitter;
+    private ISocialNetworkAPI facebook;
+    private ISocialNetworkAPI twitter;
     
-    public MainGame(IFacebookAPI facebook, ITwitterAPI twitter) {
+    public MainGame(ISocialNetworkAPI facebook, ISocialNetworkAPI twitter) {
         this.facebook = facebook;
         this.twitter = twitter;
     }

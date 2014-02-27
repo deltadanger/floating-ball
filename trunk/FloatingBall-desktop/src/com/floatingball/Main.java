@@ -3,7 +3,7 @@ package com.floatingball;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.floatingball.comunication.ConfirmParameter;
-import com.floatingball.comunication.IFacebookAPI;
+import com.floatingball.comunication.ISocialNetworkAPI;
 import com.floatingball.comunication.ITwitterAPI;
 
 public class Main{
@@ -14,7 +14,7 @@ public class Main{
 		cfg.width = 400;
 		cfg.height = 600;
 		
-		new LwjglApplication(new MainGame(new IFacebookAPI() {
+		new LwjglApplication(new MainGame(new ISocialNetworkAPI() {
 
             @Override
             public void updateStatus(String status, String url, String success,
