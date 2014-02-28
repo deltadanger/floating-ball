@@ -3,20 +3,23 @@ http://www.kilobolt.com/day-6-adding-graphics---welcome-to-the-necropolis.html
 - Tap to switch gravity
 X Random level generation
 - Level generated depending on current ball position
+    - spike generated at ball position
+    - every n spikes, generate a full line of spikes with a hole at ball position
 - High Score
 - Adjustable scroll speed
 
 Font colours: 
 B9AEF2 -> 6B5CB7
 
+Sounds: http://www.bfxr.net/
 
 TODO:
-- Update Home screen
-- Fix square clouds bug
+/ Fix square clouds bug
 / Facebook on Android
-- Twitter on Android
-- Facebook on iOS
-- Twitter on iOS
-- Sounds
 / AdMob on Android
+- Sounds
+- Update Home screen
+- Facebook on iOS
 - AdMob on iOS
+- Twitter on Android
+- Twitter on iOS

@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.floatingball.gameobjects.Cloud;
 import com.floatingball.gameobjects.Scrollable;
+import com.floatingball.gameobjects.Spike;
 
 public class GameRenderer {
 
@@ -57,9 +58,9 @@ public class GameRenderer {
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         
         batcher.begin();
-        batcher.disableBlending();
+//        batcher.disableBlending();
         batcher.draw(AssetLoader.background, 0, 0, Utils.GAME_WIDTH, gameHeight);
-        batcher.enableBlending();
+//        batcher.enableBlending();
 
         switch (world.getCurrentState()) {
 			case START:
@@ -86,8 +87,8 @@ public class GameRenderer {
         // Draw spikes and clouds
     	for (Scrollable s : world.getScrollables()) {
     		if (s instanceof Cloud) {
-    			batcher.draw(s.getTexture(), s.getX(), s.getY(), s.getWidth()*CLOUD_SIZE_FACTOR, s.getHeight()*CLOUD_SIZE_FACTOR);
-    		} else {
+            	batcher.draw(s.getTexture(), s.getX(), s.getY(), s.getWidth()*CLOUD_SIZE_FACTOR, s.getHeight()*CLOUD_SIZE_FACTOR);
+    		} else if (s instanceof Spike) {
     			batcher.draw(s.getTexture(), s.getX(), s.getY(), SPIKE_SIZE, SPIKE_SIZE);
     		}
     	}
@@ -95,13 +96,6 @@ public class GameRenderer {
     	// Draw ball
         batcher.draw(AssetLoader.ball, world.getBall().getX(), world.getBall().getY(), BALL_SIZE, BALL_SIZE);
     	
-        // Draw gravity arrow
-//        TextureRegion arrow = AssetLoader.arrowGravityDown;
-//        if (world.getGravityDirection() < 0) {
-//        	arrow = AssetLoader.arrowGravityUp;
-//        }
-//        batcher.draw(arrow, Utils.GAME_WIDTH-arrow.getRegionWidth()-10, 10);
-        
         if (displayScore) {
             // Draw Score
             String score = ""+world.getScore();
@@ -187,12 +181,13 @@ public class GameRenderer {
     	AssetLoader.secondaryFont.draw(batcher, highScore, Utils.GAME_WIDTH/2 - b.width/2, yPos);
     	
     	yPos += (-b.height) + TITLE_VERTICAL_PADDING;
-    	int xPos = Utils.GAME_WIDTH/2 - SHARE_ICON_PADDING/2 - SHARE_ICON_SIZE;
+//        int xPos = Utils.GAME_WIDTH/2 - SHARE_ICON_PADDING/2 - SHARE_ICON_SIZE;
+        int xPos = Utils.GAME_WIDTH/2 - SHARE_ICON_SIZE/2;
     	batcher.draw(AssetLoader.facebook, xPos, yPos, SHARE_ICON_SIZE, SHARE_ICON_SIZE);
     	world.updateFacebookBtn(xPos, yPos, SHARE_ICON_SIZE, SHARE_ICON_SIZE);
     	
-    	xPos = Utils.GAME_WIDTH/2 + SHARE_ICON_PADDING/2;
-    	batcher.draw(AssetLoader.twitter, xPos, yPos, SHARE_ICON_SIZE, SHARE_ICON_SIZE);
-    	world.updateTwitterBtn(xPos, yPos, SHARE_ICON_SIZE, SHARE_ICON_SIZE);
+//    	xPos = Utils.GAME_WIDTH/2 + SHARE_ICON_PADDING/2;
+//    	batcher.draw(AssetLoader.twitter, xPos, yPos, SHARE_ICON_SIZE, SHARE_ICON_SIZE);
+//    	world.updateTwitterBtn(xPos, yPos, SHARE_ICON_SIZE, SHARE_ICON_SIZE);
     }
 }

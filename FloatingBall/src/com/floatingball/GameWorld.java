@@ -10,6 +10,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.floatingball.comunication.ConfirmParameter;
 import com.floatingball.comunication.ISocialNetworkAPI;
@@ -86,6 +87,10 @@ public class GameWorld {
         ball = new Ball(BALL_POSITION, 0, gameHeight);
         
         initialisePreferences();
+        
+        if (isMusicOn()) {
+            AssetLoader.music.loop();
+        }
         
         reset();
         currentState = GameState.START;
@@ -230,14 +235,19 @@ public class GameWorld {
 	    case RUNNING:
             gravityDirection = 0 - gravityDirection;
             ball.onClick(gravityDirection);
+            
+            Sound s = AssetLoader.gravityDown;
+            if (gravityDirection > 0) {
+                s = AssetLoader.gravityUp;
+            }
+            playSound(s);
             break;
 	    }
     }
     
     private void generateClouds() {
-        Cloud cloud = new Cloud(r.nextInt(gameHeight), AssetLoader.clouds.get(r.nextInt(AssetLoader.clouds.size())), scrollSpeed);
-        // cloud #4 6
-//        Cloud cloud = new Cloud(r.nextInt(gameHeight), AssetLoader.clouds.get(3), scrollSpeed);
+        int cloudIndex = r.nextInt(AssetLoader.clouds.size());
+        Cloud cloud = new Cloud(r.nextInt(gameHeight), AssetLoader.clouds.get(cloudIndex), scrollSpeed);
         
     	if (lastCloud == null) {
 			scrollables.add(cloud);
@@ -296,6 +306,7 @@ public class GameWorld {
     		if (spikeCenter.dst(ballCenter) < ball.getWidth()/2 + spike.getWidth()/2) {
     			currentState = GameState.GAME_OVER;
     			setHighScore();
+                playSound(AssetLoader.hit);
     			return;
     		}
     	}
@@ -303,7 +314,14 @@ public class GameWorld {
     	if (ball.getY() < 0 || ball.getY()+ball.getHeight() > gameHeight) {
     		currentState = GameState.GAME_OVER;
 			setHighScore();
+			playSound(AssetLoader.hit);
     	}
+    }
+    
+    public void playSound(Sound s) {
+        if (isSoundOn()) {
+            s.play();
+        }
     }
     
     public int getHighScore() {
@@ -346,6 +364,12 @@ public class GameWorld {
         this.isMusicOn = isMusicOn;
         preferences.putBoolean(PREFERENCE_KEY_MUSIC, isMusicOn);
         preferences.flush();
+        
+        if (isMusicOn) {
+            AssetLoader.music.loop();
+        } else {
+            AssetLoader.music.stop();
+        }
     }
 
     public boolean isSoundOn() {
