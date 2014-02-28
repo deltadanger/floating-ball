@@ -3,6 +3,7 @@ package helper;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,7 +15,7 @@ public class AssetLoader {
     public static TextureRegion background;
     public static TextureRegion ball;
     public static TextureRegion spike;
-    public static ArrayList<TextureRegion> clouds = new ArrayList<TextureRegion>();
+    public static ArrayList<TextureRegion> clouds;
     
     public static Texture homeTexture;
     public static TextureRegion musicOn;
@@ -27,6 +28,11 @@ public class AssetLoader {
     public static TextureRegion explanations;
     public static TextureRegion facebook;
     public static TextureRegion twitter;
+
+    public static Sound music;
+    public static Sound gravityDown;
+    public static Sound gravityUp;
+    public static Sound hit;
 
     public static BitmapFont mainFont;
     public static BitmapFont gameOverFont;
@@ -49,6 +55,8 @@ public class AssetLoader {
         spike = new TextureRegion(texture, 271, 0, 351, 351);
         spike.flip(false, true);
 
+        clouds = new ArrayList<TextureRegion>();
+        
         TextureRegion cloud = new TextureRegion(texture, 694, 30, 242, 103);
         cloud.flip(false, true);
         clouds.add(cloud);
@@ -158,11 +166,11 @@ public class AssetLoader {
         secondaryFont.setScale(.07f, -.07f);
         
         // Sounds
-        
-        
-//        sound = Gdx.audio.newSound(Gdx.files.internal("data/sound.wav"));
-//        AssetLoader.sound.play();
 
+        music = Gdx.audio.newSound(Gdx.files.internal("data/gravity_down.wav"));
+        gravityDown = Gdx.audio.newSound(Gdx.files.internal("data/gravity_down.wav"));
+        gravityUp = Gdx.audio.newSound(Gdx.files.internal("data/gravity_up.wav"));
+        hit = Gdx.audio.newSound(Gdx.files.internal("data/hit.wav"));
 
 //        TextureRegion[] birds = { birdDown, bird, birdUp };
 //        birdAnimation = new Animation(0.06f, birds);
@@ -170,6 +178,8 @@ public class AssetLoader {
     }
     
     public static void dispose() {
+        clouds = null;
+        
         texture.dispose();
         homeTexture.dispose();
         
@@ -177,7 +187,10 @@ public class AssetLoader {
         gameOverFont.dispose();
         secondaryFont.dispose();
         
-        // Dispose sounds
+        music.dispose();
+        gravityDown.dispose();
+        gravityUp.dispose();
+        hit.dispose();
     }
 
 }
