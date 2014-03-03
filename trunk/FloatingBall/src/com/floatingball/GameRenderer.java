@@ -23,7 +23,7 @@ public class GameRenderer {
     public static final int SPIKE_SIZE = 15;
     public static final float CLOUD_SIZE_FACTOR = 0.5f;
 
-	public static final int PARAM_POSITION_X = 15;
+	public static final int PARAM_POSITION_X = 10;
 	public static final int PARAM_POSITION_Y = 15;
 	public static final int PARAM_ICON_SIZE = 15;
 	public static final int PARAM_ARROW_SIZE = 10;
@@ -55,12 +55,12 @@ public class GameRenderer {
 
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         
         batcher.begin();
-//        batcher.disableBlending();
+        batcher.disableBlending();
         batcher.draw(AssetLoader.background, 0, 0, Utils.GAME_WIDTH, gameHeight);
-//        batcher.enableBlending();
+        batcher.enableBlending();
 
         switch (world.getCurrentState()) {
 			case START:
@@ -115,16 +115,17 @@ public class GameRenderer {
     	world.updateSoundBtn(xPos, PARAM_POSITION_Y, (int)(PARAM_ICON_SIZE*0.707));
     	
     	
-    	TextureRegion music = AssetLoader.musicOn;
-    	if (!world.isMusicOn()) {
-    		music = AssetLoader.musicOff;
-    	}
-    	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - PARAM_PADDING;
-    	batcher.draw(music, xPos, PARAM_POSITION_Y, PARAM_ICON_SIZE, PARAM_ICON_SIZE);
-        world.updateMusicBtn(xPos, PARAM_POSITION_Y, (int)(PARAM_ICON_SIZE*0.707));
+//    	TextureRegion music = AssetLoader.musicOn;
+//    	if (!world.isMusicOn()) {
+//    		music = AssetLoader.musicOff;
+//    	}
+//    	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - PARAM_PADDING;
+//    	batcher.draw(music, xPos, PARAM_POSITION_Y, PARAM_ICON_SIZE, PARAM_ICON_SIZE);
+//        world.updateMusicBtn(xPos, PARAM_POSITION_Y, (int)(PARAM_ICON_SIZE*0.707));
 
-    	
-    	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 2*PARAM_PADDING - PARAM_ARROW_SIZE;
+
+//        xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 2*PARAM_PADDING - PARAM_ARROW_SIZE;
+        xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - PARAM_ICON_SIZE - PARAM_PADDING - PARAM_ARROW_SIZE;
     	int yPos = PARAM_POSITION_Y - SPEED_VERTICAL_PADDING - PARAM_ARROW_SIZE;
     	batcher.draw(AssetLoader.arrowUp, xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
         world.updateSpeedIncreaseBtn(xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
@@ -134,14 +135,16 @@ public class GameRenderer {
     	xPos += PARAM_ARROW_SIZE/2 - (int)(b.width/2);
     	AssetLoader.secondaryFont.draw(batcher, speed, xPos, PARAM_POSITION_Y);
 
-    	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 2*PARAM_PADDING - PARAM_ARROW_SIZE;
+//        xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 2*PARAM_PADDING - PARAM_ARROW_SIZE;
+        xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - PARAM_ICON_SIZE - PARAM_PADDING - PARAM_ARROW_SIZE;
     	yPos = PARAM_POSITION_Y + (int)-b.height + SPEED_VERTICAL_PADDING;
     	batcher.draw(AssetLoader.arrowDown, xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
         world.updateSpeedDecreaseBtn(xPos, yPos, PARAM_ARROW_SIZE, PARAM_ARROW_SIZE);
 
     	
     	b = AssetLoader.secondaryFont.getBounds(Translate.t(Translate.SPEED));
-    	xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 3*PARAM_PADDING - PARAM_ARROW_SIZE - (int)b.width;
+//        xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - 2*PARAM_ICON_SIZE - 3*PARAM_PADDING - PARAM_ARROW_SIZE - (int)b.width;
+        xPos = Utils.GAME_WIDTH - PARAM_POSITION_X - PARAM_ICON_SIZE - 2*PARAM_PADDING - PARAM_ARROW_SIZE - (int)b.width;
     	AssetLoader.secondaryFont.draw(batcher, Translate.t(Translate.SPEED), xPos, PARAM_POSITION_Y);
     	
     	
@@ -150,13 +153,18 @@ public class GameRenderer {
     	AssetLoader.mainFont.draw(batcher, Translate.t(Translate.TITLE), Utils.GAME_WIDTH/2 - (int)(b.width/2), yPos);
     	
     	
-    	yPos += -b.height + TITLE_VERTICAL_PADDING;
+    	yPos += -b.height + 2*TITLE_VERTICAL_PADDING;
     	batcher.draw(AssetLoader.play, Utils.GAME_WIDTH/2 - PLAY_SIZE/2, yPos, PLAY_SIZE, PLAY_SIZE);
     	
     	
     	yPos += PLAY_SIZE + TITLE_VERTICAL_PADDING;
     	int height = AssetLoader.explanations.getRegionHeight() * EXPLANATIONS_WIDTH / AssetLoader.explanations.getRegionWidth();
     	batcher.draw(AssetLoader.explanations, Utils.GAME_WIDTH/2 - EXPLANATIONS_WIDTH/2, yPos, EXPLANATIONS_WIDTH, height);
+
+        yPos += height + TITLE_VERTICAL_PADDING;
+        String highScore = Translate.t(Translate.HIGH_SCORE) + " " + world.getHighScore();
+        b = AssetLoader.secondaryFont.getBounds(highScore);
+        AssetLoader.secondaryFont.draw(batcher, highScore, Utils.GAME_WIDTH/2 - b.width/2, yPos);
     }
     
     private void renderGameOver() {

@@ -1,6 +1,7 @@
 package com.floatingball;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,20 +17,22 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends AndroidApplication {
+    public static final int BACKGROUND_COLOR = Color.parseColor("#BDFAFF");
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGL20 = false;
-        
-//        initialize(new MainGame(new FacebookAPI(this), new TwitterAPI(this)), cfg);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         RelativeLayout layout = new RelativeLayout(this);
+        layout.setBackgroundColor(BACKGROUND_COLOR);
+        
         RelativeLayout.LayoutParams gameViewParams =
                 new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 
                         RelativeLayout.LayoutParams.WRAP_CONTENT);

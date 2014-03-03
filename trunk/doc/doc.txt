@@ -1,5 +1,3 @@
-http://www.kilobolt.com/day-6-adding-graphics---welcome-to-the-necropolis.html
-
 - Tap to switch gravity
 X Random level generation
 - Level generated depending on current ball position
@@ -8,16 +6,20 @@ X Random level generation
 - High Score
 - Adjustable scroll speed
 
-Font colours: 
-B9AEF2 -> 6B5CB7
+Colours:
+    Font: B9AEF2 -> 6B5CB7
+    Background: BDFAFF
 
+Icons: http://www.flaticon.com
 Sounds: http://www.bfxr.net/
+
 
 TODO:
 / Fix square clouds bug
 / Facebook on Android
 / AdMob on Android
-- Sounds
+X Sounds
+/ Fix music / sound effect icons
 - Update Home screen
 - Facebook on iOS
 - AdMob on iOS

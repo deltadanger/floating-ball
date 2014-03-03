@@ -3,7 +3,7 @@ package helper;
 import com.badlogic.gdx.math.Vector2;
 
 public class ClickableZone {
-    public static final int BUTTON_CLICK_ZONE_PADDING = 2;
+    public static final int BUTTON_CLICK_ZONE_PADDING = 4;
     
     private Vector2 position = null;
     private int radius = -1;

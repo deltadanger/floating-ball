@@ -18,8 +18,8 @@ public class AssetLoader {
     public static ArrayList<TextureRegion> clouds;
     
     public static Texture homeTexture;
-    public static TextureRegion musicOn;
-    public static TextureRegion musicOff;
+//    public static TextureRegion musicOn;
+//    public static TextureRegion musicOff;
     public static TextureRegion soundOn;
     public static TextureRegion soundOff;
     public static TextureRegion arrowUp;
@@ -137,16 +137,16 @@ public class AssetLoader {
         arrowDown = new TextureRegion(homeTexture, 0, 275, 308, 268);
         arrowDown.flip(false, true);
 
-        musicOn = new TextureRegion(homeTexture, 418, 320, 256, 256);
-        musicOn.flip(false, true);
+//        musicOn = new TextureRegion(homeTexture, 418, 320, 256, 256);
+//        musicOn.flip(false, true);
+//
+//        musicOff = new TextureRegion(homeTexture, 737, 308, 256, 256);
+//        musicOff.flip(false, true);
 
-        musicOff = new TextureRegion(homeTexture, 737, 308, 256, 256);
-        musicOff.flip(false, true);
-
-        soundOn = new TextureRegion(homeTexture, 675, 22, 256, 256);
+        soundOn = new TextureRegion(homeTexture, 418, 320, 256, 256);
         soundOn.flip(false, true);
 
-        soundOff = new TextureRegion(homeTexture, 371, 14, 256, 256);
+        soundOff = new TextureRegion(homeTexture, 737, 308, 256, 256);
         soundOff.flip(false, true);
 
         facebook = new TextureRegion(homeTexture, 1526, 36, 512, 512);
