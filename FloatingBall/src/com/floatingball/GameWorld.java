@@ -31,7 +31,7 @@ public class GameWorld {
     
     public static final String PREFERENCES_NAME = "com.floatingball";
     public static final String PREFERENCE_KEY_HIGH_SCORE = "highScore";
-    public static final String PREFERENCE_KEY_MUSIC = "music";
+//    public static final String PREFERENCE_KEY_MUSIC = "music";
     public static final String PREFERENCE_KEY_SOUND = "sound";
     public static final String PREFERENCE_KEY_SPEED = "speed";
     public static final int BASE_SCROLL_SPEED = -172;
@@ -66,13 +66,13 @@ public class GameWorld {
 	
 	private Preferences preferences;
 	private int speed = DEFAULT_SPEED;
-	private boolean isMusicOn = true;
+//	private boolean isMusicOn = true;
 	private boolean isSoundOn = true;
 
     private ClickableZone speedIncreaseBtn = new ClickableZone();
     private ClickableZone speedDecreaseBtn = new ClickableZone();
     private ClickableZone soundBtn = new ClickableZone();
-    private ClickableZone musicBtn = new ClickableZone();
+//    private ClickableZone musicBtn = new ClickableZone();
     private ClickableZone facebookBtn = new ClickableZone();
     private ClickableZone twitterBtn = new ClickableZone();
     
@@ -88,9 +88,9 @@ public class GameWorld {
         
         initialisePreferences();
         
-        if (isMusicOn()) {
-            AssetLoader.music.loop();
-        }
+//        if (isMusicOn()) {
+//            AssetLoader.music.loop();
+//        }
         
         reset();
         currentState = GameState.START;
@@ -104,10 +104,10 @@ public class GameWorld {
             flush = true;
         }
 
-        if (!preferences.contains(PREFERENCE_KEY_MUSIC)) {
-        	preferences.putBoolean(PREFERENCE_KEY_MUSIC, true);
-            flush = true;
-        }
+//        if (!preferences.contains(PREFERENCE_KEY_MUSIC)) {
+//        	preferences.putBoolean(PREFERENCE_KEY_MUSIC, true);
+//            flush = true;
+//        }
 
         if (!preferences.contains(PREFERENCE_KEY_SOUND)) {
         	preferences.putBoolean(PREFERENCE_KEY_SOUND, true);
@@ -124,7 +124,7 @@ public class GameWorld {
         }
 
         speed = preferences.getInteger(PREFERENCE_KEY_SPEED);
-        isMusicOn = preferences.getBoolean(PREFERENCE_KEY_MUSIC);
+//        isMusicOn = preferences.getBoolean(PREFERENCE_KEY_MUSIC);
         isSoundOn = preferences.getBoolean(PREFERENCE_KEY_SOUND);
     }
     
@@ -185,9 +185,9 @@ public class GameWorld {
             if (soundBtn.isInside(x, y)) {
                 setSoundOn(!isSoundOn);
                 
-            } else if (musicBtn.isInside(x, y)) {
-                setMusicOn(!isMusicOn);
-                
+//            } else if (musicBtn.isInside(x, y)) {
+//                setMusicOn(!isMusicOn);
+//                
             } else if (speedIncreaseBtn.isInside(x, y)) {
                 setSpeed(Math.min(MAX_SPEED, speed+1));
                 
@@ -356,21 +356,21 @@ public class GameWorld {
 		return score;
 	}
 
-	public boolean isMusicOn() {
-		return isMusicOn;
-	}
-
-    private void setMusicOn(boolean isMusicOn) {
-        this.isMusicOn = isMusicOn;
-        preferences.putBoolean(PREFERENCE_KEY_MUSIC, isMusicOn);
-        preferences.flush();
-        
-        if (isMusicOn) {
-            AssetLoader.music.loop();
-        } else {
-            AssetLoader.music.stop();
-        }
-    }
+//	public boolean isMusicOn() {
+//		return isMusicOn;
+//	}
+//
+//    private void setMusicOn(boolean isMusicOn) {
+//        this.isMusicOn = isMusicOn;
+//        preferences.putBoolean(PREFERENCE_KEY_MUSIC, isMusicOn);
+//        preferences.flush();
+//        
+//        if (isMusicOn) {
+//            AssetLoader.music.loop();
+//        } else {
+//            AssetLoader.music.stop();
+//        }
+//    }
 
     public boolean isSoundOn() {
         return isSoundOn;
@@ -405,9 +405,9 @@ public class GameWorld {
         soundBtn.update(x, y, radius);
     }
     
-    public void updateMusicBtn(int x, int y, int radius) {
-        musicBtn.update(x, y, radius);
-    }
+//    public void updateMusicBtn(int x, int y, int radius) {
+//        musicBtn.update(x, y, radius);
+//    }
     
     public void updateFacebookBtn(int x, int y, int width, int height) {
         facebookBtn.update(x, y, width, height);
